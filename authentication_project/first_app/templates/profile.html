@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Authentication|Authorization|Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center">
+    <h1>Profile Page</h1>
+</div>
+<hr/>
+
+<div class="container">
+    <h1>Welcome {{user}}</h1>
+
+    <p><a class="btn btn-info" href="{% url 'pass_change_page' %}">Change Your Password</a>
+        <a class="btn btn-warning" href="{% url 'pass_change_without_old_page' %}">Change Your Password without old password</a></p>
+    
+    <hr/>
+    <div class="text-center">
+        {% if messages %}
+            {% for msg in messages %}
+                <small class="bg-success text-white p-3" >{{msg}}</small>
+            {% endfor %}
+            
+        {% endif %}
+    </div>    
+
+    <form method="post" style="width:50%; margin:auto;" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for er in form.non_field_errors %}
+                <p class="bg-danger text-white p-3"> <small>{{er}}</small></p>
+            {% endfor %}
+        {% endif %}
+
+        <!-- {{form | crispy }} -->
+        {% for fm in form %}
+            {{fm.label_tag}}
+            {{fm}}
+            {{fm.errors | striptags }}
+        {% endfor %}
+        <div class="my-5">
+            <button class="btn btn-warning" type="submit">Update Data</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock  %}

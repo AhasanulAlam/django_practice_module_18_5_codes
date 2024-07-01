@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Authentication|Authorization|Signup
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center">
+    <h1>Signup Page</h1>
+</div>
+<hr>
+
+<div class="container">
+    {% if messages %}
+        {% for msg in messages %}
+            <p class="bg-success text-white p-3"><small {% if msg.tags %} class="{{msg.tags}}" {% endif %}>{{msg}}</small></p>
+        {% endfor %}
+        
+    {% endif %}
+</div>
+
+<div class="container">    
+    <form method="post" style="width:50%; margin:auto;" novalidate>
+        {% csrf_token %}
+        <!-- {{form | crispy }} -->
+        {% for fm in form %}
+            {{fm.label_tag}}
+            {{fm}}
+            {{fm.errors | striptags }}
+        {% endfor %}
+        <div class="my-5">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <br />
+            <div class="text-center">
+                <small>Already have an account <a href="{% url 'login_page' %}">Login</a></small>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock  %}

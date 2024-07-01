@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Authentication|Authorization|password Change
+{% endblock %}
+
+{% block content %}
+
+<div class="container text-center">
+    <h1>Password Change Page</h1>
+</div>
+<hr>
+
+<div class="container text-center">
+    {% if messages %}
+        {% for msg in messages %}
+            <small class="bg-success text-white p-3">{{msg}}</small>
+        {% endfor %}
+        
+    {% endif %}
+</div>
+<h1>User: {{user}}</h1>
+<div class="container">    
+    <form method="post" style="width:50%; margin:auto;" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for er in form.non_field_errors %}
+                <p class="bg-danger text-white p-3"> <small>{{er}}</small></p>
+            {% endfor %}
+        {% endif %}
+
+        <!-- {{form | crispy }} -->
+        {% for fm in form %}
+            {{fm.label_tag}}
+            {{fm}}
+            <p class="text-danger">{{fm.errors | striptags }}</p>
+        {% endfor %}
+        <div class="my-5">
+            <button class="btn btn-warning" type="submit">Change Password</button>
+        </div>
+    </form>
+</div>
+
+{% endblock  %}
